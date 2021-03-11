@@ -5,10 +5,11 @@ module SorryYahooFinance
   class Acquirer
     include Decorator
 
-    attr_reader :stocks
+    attr_reader :stocks, :delay
 
-    def initialize(codes, date_or_ary_range_range)
+    def initialize(codes, date_or_ary_range_range, delay_sec: nil)
       dates = build_date(date_or_ary_range_range)
+      @delay = delay_sec.to_i
       @stocks = if codes.count == 1
                   [get_one(codes.first, dates)]
                 else
@@ -25,7 +26,7 @@ module SorryYahooFinance
     end
 
     def get_some(codes, dates)
-      codes.map { |code| get_one(code, dates) }
+      codes.map { |code| sleep(@delay); get_one(code, dates) }
     end
 
     private
@@ -38,6 +39,7 @@ module SorryYahooFinance
         when Array
           meta_info = scrape_with_date(code, dates[0])
           prices = dates.map do |date|
+            sleep(@delay)
             scrape_with_date(code, date).select { |k, v| [:opening, :high, :low, :finish, :turnover].include? k }.merge({date: date})
           end
           {

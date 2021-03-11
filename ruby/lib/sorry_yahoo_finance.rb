@@ -8,16 +8,16 @@ require "sorry_yahoo_finance/utils/all_stock_codes"
 module SorryYahooFinance
   class << self
     # Goodby Ruby < 2.0
-    def find(*codes, date: nil, lang: :ja, format: :hash)
-      acquirer = Acquirer.new(codes, date)
+    def find(*codes, date: nil, delay_sec: nil, lang: :ja, format: :hash)
+      acquirer = Acquirer.new(codes, date, delay_sec: delay_sec)
       output_hash = acquirer.output(lang, format)
       output_hash.count == 1 ? output_hash.first : output_hash
     end
 
     # TODO: Lazy
-    def find_all(date: nil, lang: :ja, format: true)
+    def find_all(date: nil, delay_sec: nil, lang: :ja, format: true)
       AllStockCodes::CODES.lazy.map do |code|
-        Acquirer.new([code], date).output(lang, format).first
+        Acquirer.new([code], date, delay_sec: delay_sec).output(lang, format).first
       end
     end
 
