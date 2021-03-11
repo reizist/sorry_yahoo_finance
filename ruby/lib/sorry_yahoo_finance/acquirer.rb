@@ -60,7 +60,7 @@ module SorryYahooFinance
         {
           code:     code,
           name:     html.css('table.stocksTable th.symbol h1').inner_text,
-          market:   html.css('div#ddMarketSelect span.stockMainTabName').inner_text,
+          market:   html.css('div#main span.stockMainTabName').inner_text,
           industry: html.css("div.stocksDtl dd.category a").text,
           opening:  opening,
           high:     high,
@@ -83,7 +83,7 @@ module SorryYahooFinance
         {
           code:               code,
           name:               html.css('table.stocksTable th.symbol h1').inner_text,
-          market:             html.css('div#ddMarketSelect span.stockMainTabName').inner_text,
+          market:             html.css('div#main span.stockMainTabName').inner_text,
           industry:           html.css("div.stocksDtl dd.category a").text,
           price:              html.css('table.stocksTable td.stoksPrice')[1].content,
           previousprice:      previousprice,
